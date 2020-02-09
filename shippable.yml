@@ -12,9 +12,12 @@ branches:
     - feat
 
   build:
+    pre_ci:
+      
     pre_ci_boot:
       image_name: lrodriguez15/cppplayground
       image_tag: playground
     ci:
+      - ls
       - cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" .
       - make
