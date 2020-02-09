@@ -1,0 +1,20 @@
+language: c
+
+compiler:
+  - gcc
+
+branches:
+  only:
+    - master
+    - develop
+    - release/*
+  except:
+    - feat
+
+  build:
+    pre_ci_boot:
+      image_name: lrodriguez15/cppplayground
+      image_tag: playground
+    ci:
+      - cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" .
+      - make
