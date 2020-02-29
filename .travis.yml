@@ -5,26 +5,25 @@ compiler:
   - gcc
 
 before_script: 
-  - apt-get update -qq
-  - apt-get install -y -qq bc ccache clang-format-6.0 clang-tidy cmake git lcov python3 python3-yaml doxygen graphviz
-  - update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-6.0 10
+  - sudo apt-get update -qq
+  - sudo apt-get install -y -qq bc clang ccache clang-format-6.0 clang-tidy cmake git lcov python3 python3-yaml doxygen graphviz
+  - sudo apt-get install -y -qq shellcheck 
+  - sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-6.0 10
+  - sudo apt-get install nodejs
+  - sudo apt-get install npm
   - export NUMCPUS=`grep -c '^processor' /proc/cpuinfo`
   - echo NUMCPUS=$NUMCPUS
   - export LSAN_OPTIONS=fast_unwind_on_malloc=0
   - ccache -s
 
-coverage:
-  image: ubuntu:xenial
-  stage: compile
-  script:
-    - apt-get install -y -qq g++
-    - mkdir /tmp/coverage
-    - cd /tmp/coverage
-    - $CI_PROJECT_DIR/scripts/test-coverage.sh
-  after_script:
-    - tar --create --auto-compress --file=$CI_PROJECT_DIR/coverage_build.tar.gz /tmp/coverage/coverage-report
-  coverage: '/Minimal coverage is (\d+\.\d+)\%/'
-  artifacts:
-    when: always
-    paths:
-    - coverage_build.tar.gz
+script: 
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" ../.
+  - make
+  - rm -rf ./*
+  - ../scripts/test-clang-format.sh
+  - ../scripts/test-clang-tidy.sh
+  - cp ../scripts/shell-lint.sh ../
+  - cd ..
+  - bash ./shell-lint.sh

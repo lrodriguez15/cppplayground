@@ -1,16 +1,27 @@
   build:
-    pre_ci:
-
     pre_ci_boot:
       image_name: lrodriguez15/cppplayground
       image_tag: playground
     ci:
       - apt-get update -qq
-      - apt-get install -y -qq bc ccache clang-format-6.0 clang-tidy cmake git lcov python3 python3-yaml doxygen graphviz
+      - apt-get install -y -qq bc ccache clang clang-format-6.0 clang-tidy cmake git lcov python3 python3-yaml doxygen graphviz nodejs
+      - apt-get install -y -qq shellcheck 
+      - apt-get install -y -qq npm
+      - npm install -g markdownlint-cli
       - update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-6.0 10
       - export NUMCPUS=`grep -c '^processor' /proc/cpuinfo`
       - echo NUMCPUS=$NUMCPUS
       - export LSAN_OPTIONS=fast_unwind_on_malloc=0
       - ccache -s
-      - cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" .
+      - mkdir build
+      - cd build 
+      - cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" ../.
       - make
+      - rm -rf ./*
+      - ../scripts/test-clang-format.sh
+      - ../scripts/test-clang-tidy.sh
+      - cp ../scripts/shell-lint.sh ../
+      - cd ..
+      - bash ./shell-lint.sh
+      - npm install -g markdownlint -cli
+      - markdownlint --ignore ./build/ --ignore ./lib/
