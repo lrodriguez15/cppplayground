@@ -20,10 +20,7 @@ script:
   - mkdir build
   - cd build
   - ../scripts/test-all.sh
-  - bash ./shell-lint.sh
-  - npm install -g markdownlint -cli
-  - markdownlint --ignore ./build/ --ignore ./lib/
-  - make test
-
-notifications:
-  email: false
+  - cp ../scripts/shell-lint.sh ../
+  - cd ..
+  - cd build
+  - ../scripts/test-all.sh

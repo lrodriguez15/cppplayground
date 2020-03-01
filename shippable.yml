@@ -18,7 +18,10 @@
       - mkdir build
       - cd build
       - ../scripts/test-all.sh
+      - make test GTEST_OUTPUT=xml:$TEST_RESULTS
+      - rm -rf ./*
+      - cp ../scripts/shell-lint.sh ../
+      - cd ..
       - bash ./shell-lint.sh
       - npm install -g markdownlint -cli
       - markdownlint --ignore ./build/ --ignore ./lib/
-      - make test GTEST_OUTPUT=xml:$TEST_RESULTS
