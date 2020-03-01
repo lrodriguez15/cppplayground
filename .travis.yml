@@ -19,12 +19,11 @@ before_script:
 script: 
   - mkdir build
   - cd build
-  - cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" ../.
-  - make
-  - rm -rf ./*
-  - ../scripts/test-clang-format.sh
-  - ../scripts/test-clang-tidy.sh
-  - rm -rf ./*
-  - cp ../scripts/shell-lint.sh ../
-  - cd ..
+  - ../scripts/test-all.sh
   - bash ./shell-lint.sh
+  - npm install -g markdownlint -cli
+  - markdownlint --ignore ./build/ --ignore ./lib/
+  - make test
+
+notifications:
+  email: false
