@@ -1,4 +1,6 @@
   build:
+    env:
+      - TEST_RESULTS=$SHIPPABLE_BUILD_DIR/shippable/testresults/
     pre_ci_boot:
       image_name: lrodriguez15/cppplayground
       image_tag: playground
@@ -14,15 +16,9 @@
       - export LSAN_OPTIONS=fast_unwind_on_malloc=0
       - ccache -s
       - mkdir build
-      - cd build 
-      - cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" ../.
-      - make
-      - rm -rf ./*
-      - ../scripts/test-clang-format.sh
-      - ../scripts/test-clang-tidy.sh
-      - rm -rf ./*
-      - cp ../scripts/shell-lint.sh ../
-      - cd ..
+      - cd build
+      - ../scripts/test-all.sh
       - bash ./shell-lint.sh
       - npm install -g markdownlint -cli
       - markdownlint --ignore ./build/ --ignore ./lib/
+      - make test GTEST_OUTPUT=xml:$TEST_RESULTS

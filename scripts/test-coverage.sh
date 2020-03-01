@@ -25,7 +25,7 @@ cmake --build . -- -j "${NUM_CPUS}"
 ctest --output-on-failure -j "${NUM_CPUS}"
 
 log_file="run-lcov.log"
-"${PROJECT_DIR}/scripts/test/bits/run-lcov.sh" | tee "$log_file"
+"${PROJECT_DIR}/scripts/bits/run-lcov.sh" | tee "$log_file"
 
 heading="Overall coverage rate:"
 coverages=()
