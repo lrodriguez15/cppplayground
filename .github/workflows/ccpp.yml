@@ -10,8 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: docker://lrodriguez15/cppplayground:playground
-    - name: cmake
-      run: cmake -DCMAKE_CXX_COMPILER="/usr/bin/g++" .
-    - name: make
-      run: make
-
+      name: build 
+    - run:  mkdir build && cd build && cmake ../. && make
+  

@@ -248,12 +248,22 @@ def main():
   
   # Delete duplicated files
   files = list(dict.fromkeys(files))
-
   # Exclude unit_test_main.cpp
   for f in files:
      if "unit_test_main.cpp" in f:
-        files.remove(f)
-
+       files.remove(f)
+  for f in files: 
+     if "gmock_main.cc" in f: 
+       files.remove(f)
+  for f in files: 
+     if "gmock-all.cc" in f: 
+       files.remove(f)
+  for f in files: 
+     if "gtest_main.cc" in f: 
+       files.remove(f)
+  for f in files: 
+     if "gtest-all.cc" in f: 
+       files.remove(f)
   max_task = args.j
   if max_task == 0:
     max_task = multiprocessing.cpu_count()

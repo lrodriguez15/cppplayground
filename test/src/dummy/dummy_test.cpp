@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include "gtest/gtest.h"  // NOLINT
 #include "dummy/dummy.h"
 
 TEST(example, add)  // NOLINT
