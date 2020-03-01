@@ -1,6 +1,7 @@
-  build:
-    env:
-      - TEST_RESULTS=$SHIPPABLE_BUILD_DIR/shippable/testresults/
+env: 
+  - TEST_RESULTS=$SHIPPABLE_BUILD_DIR/shippable/testresults/
+
+build:
     pre_ci_boot:
       image_name: lrodriguez15/cppplayground
       image_tag: playground
